@@ -2,6 +2,7 @@ package com.mo.accountingledger;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 public class Transaction {
     private LocalDate date;
@@ -58,4 +59,29 @@ public class Transaction {
         this.amount = amount;
     }
 
+    // Method to convert to CSV format
+    public String toCsvString() {
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+
+        return String.format("%s|%s|%s|%s|%.2f",
+                date.format(dateFormatter),
+                time.format(timeFormatter),
+                description,
+                vendor,
+                amount);
     }
+
+    // Static method to create Transaction from CSV string
+    public static Transaction fromCsvString(String csvLine) {
+        String[] parts = csvLine.split("\\|");
+
+        LocalDate date = LocalDate.parse(parts[0]);
+        LocalTime time = LocalTime.parse(parts[1]);
+        String description = parts[2];
+        String vendor = parts[3];
+        double amount = Double.parseDouble(parts[4]);
+
+        return new Transaction(date, time, description, vendor, amount);
+    }
+}
