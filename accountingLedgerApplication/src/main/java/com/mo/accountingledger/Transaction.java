@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
+
 public class Transaction {
     private LocalDate date;
     private LocalTime time;
@@ -74,14 +75,27 @@ public class Transaction {
 
     // Static method to create Transaction from CSV string
     public static Transaction fromCsvString(String csvLine) {
-        String[] parts = csvLine.split("\\|");
+        try {
+            String[] parts = csvLine.split("\\|");
 
-        LocalDate date = LocalDate.parse(parts[0]);
-        LocalTime time = LocalTime.parse(parts[1]);
-        String description = parts[2];
-        String vendor = parts[3];
-        double amount = Double.parseDouble(parts[4]);
+            // Validate we have exactly 5 parts
+            if (parts.length != 5) {
+                throw new IllegalArgumentException("Invalid CSV format - expected 5 fields");
+            }
 
-        return new Transaction(date, time, description, vendor, amount);
+            // Parse with explicit error messages
+            LocalDate date = LocalDate.parse(parts[0].trim());
+            LocalTime time = LocalTime.parse(parts[1].trim());
+            String description = parts[2].trim();
+            String vendor = parts[3].trim();
+            double amount = Double.parseDouble(parts[4].trim());
+
+            return new Transaction(date, time, description, vendor, amount);
+
+        } catch (Exception e) {
+            System.err.println("Failed to parse CSV line: '" + csvLine + "'");
+            System.err.println("Reason: " + e.getMessage());
+            return null;  // Or throw a custom exception
+        }
     }
 }
