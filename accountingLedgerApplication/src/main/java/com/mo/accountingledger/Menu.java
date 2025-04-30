@@ -2,6 +2,7 @@ package com.mo.accountingledger;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Menu {
@@ -131,11 +132,36 @@ public class Menu {
         }
     }
 
-    private static void displayTransactions(boolean onlyDeposits, boolean onlyPayments) {
+    private static void displayTransactions(boolean showDepositsOnly, boolean showPaymentsOnly) {
 
+        System.out.println("\nDATE       | DESCRIPTION          | AMOUNT");
+        System.out.println("------------------------------------------");
 
+        ArrayList<Transaction> allTransactions = ledger.getTransactions();
+
+        int count = 0;
+
+        for (Transaction t : allTransactions) {
+            // Skip if not matching what we want to show
+            if (showDepositsOnly && t.getAmount() <= 0) continue;
+            if (showPaymentsOnly && t.getAmount() >= 0) continue;
+
+            String shortDesc = t.getDescription();
+            if (shortDesc.length() > 20) {
+                shortDesc = shortDesc.substring(0, 17) + "...";
+            }
+
+            System.out.printf("%s | %-20s | $%7.2f%n",
+                    t.getDate(),
+                    shortDesc,
+                    t.getAmount());
+
+            count++;
+        }
+
+        System.out.println("------------------------------------------");
+        System.out.println("Total entries: " + count);
     }
-
 
 }
 
