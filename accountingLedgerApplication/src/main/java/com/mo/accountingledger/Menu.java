@@ -22,6 +22,7 @@ public class Menu {
             System.out.println("\nWhat would you like to do?");
             System.out.println("D) Add Deposit");
             System.out.println("P) Make Payment");
+            System.out.println("L) Ledger");
             System.out.println("X) Exit");
             System.out.print("Your choice: ");
 
@@ -30,8 +31,9 @@ public class Menu {
             switch (choice) {
                 case "D" -> addDeposit();
                 case "P" -> addPayment();
+                case "L" -> showLedger();
                 case "X" -> {
-                    System.out.println("\nThank you for using the ledger. Goodbye!");
+                    System.out.println("\nThank you for using the ledger. Take care of yourself for now!");
                 }
                 default -> System.out.println("Invalid choice. Please try D, P, L, or X.");
             }
@@ -106,7 +108,36 @@ public class Menu {
         System.out.println("Payment added successfully!");
     }
 
+    private static void showLedger() {
+        while (true) {
+            System.out.println("\nLEDGER");
+            System.out.println("A) All Transactions (Newest First)");
+            System.out.println("D) Deposits Only");
+            System.out.println("P) Payments Only");
+            System.out.println("H) Home");
+            System.out.print("Your choice: ");
+
+            String choice = scanner.nextLine().trim().toUpperCase();
+
+            switch (choice) {
+                case "A" -> displayTransactions(false, false);
+                case "D" -> displayTransactions(true, false);
+                case "P" -> displayTransactions(false, true);
+                case "H" -> {
+                    return;
+                }
+                default -> System.out.println("Invalid choice. Try again.");
+            }
+        }
     }
+
+    private static void displayTransactions(boolean onlyDeposits, boolean onlyPayments) {
+
+
+    }
+
+
+}
 
 
 
