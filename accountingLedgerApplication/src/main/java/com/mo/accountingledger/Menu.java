@@ -1,34 +1,27 @@
 package com.mo.accountingledger;
 
-/*
-* Home Screen
-o The home screen should give the user the following options. The
-application should continue to run until the user chooses to exit.
-§ D) Add Deposit - prompt user for the deposit information and
-save it to the csv file
-§ P) Make Payment (Debit) - prompt user for the debit
-information and save it to the csv file
-§ L) Ledger - display the ledger screen
-§ X) Exit - exit the application
-* */
-
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Scanner;
 
 public class Menu {
 
-    private final LedgerManager ledger = new LedgerManager();
-    private final Scanner scanner = new Scanner(System.in);
+    private static final LedgerManager ledger = new LedgerManager();
+    private static final Scanner scanner = new Scanner(System.in);
 
-    public void showHomeScreen() {
+
+    public static void main(String[] args) {
+        showHomeScreen();
+
+    }
+
+    public static void showHomeScreen() {
         System.out.println("\nACCOUNTING LEDGER");
 
         while (true) {
             System.out.println("\nWhat would you like to do?");
             System.out.println("D) Add Deposit");
             System.out.println("P) Make Payment");
-            System.out.println("L) View Ledger");
             System.out.println("X) Exit");
             System.out.print("Your choice: ");
 
@@ -37,17 +30,15 @@ public class Menu {
             switch (choice) {
                 case "D" -> addDeposit();
                 case "P" -> addPayment();
-                case "L" -> showLedger();
                 case "X" -> {
                     System.out.println("\nThank you for using the ledger. Goodbye!");
-                    System.exit(0);
                 }
                 default -> System.out.println("Invalid choice. Please try D, P, L, or X.");
             }
         }
     }
 
-    private void addDeposit() {
+    private static void addDeposit() {
         System.out.println("\nADD DEPOSIT");
 
         System.out.print("Description (e.g., 'Paycheck'): ");
@@ -81,13 +72,41 @@ public class Menu {
         System.out.println("Deposit added successfully!");
     }
 
-    private void addPayment() {
+    private static void addPayment() {
+        System.out.println("\nADD PAYMENT (DEBIT)");
+
+        System.out.print("Description (e.g., 'Groceries'): ");
+        String description = scanner.nextLine().trim();
+
+        System.out.print("Vendor: ");
+        String vendor = scanner.nextLine().trim();
+
+        double amount = 0;
+        while (amount >= 0) {
+            System.out.print("Amount (must be negative): $");
+            try {
+                amount = Double.parseDouble(scanner.nextLine());
+                if (amount >= 0) {
+                    System.out.println("Amount must be negative (e.g., -20.00).");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Please enter a valid number (like -50 or -29.95).");
+            }
+        }
+
+        Transaction payment = new Transaction(
+                LocalDate.now(),
+                LocalTime.now(),
+                description,
+                vendor,
+                amount
+        );
+
+        ledger.addTransaction(payment);
+        System.out.println("Payment added successfully!");
+    }
 
     }
 
-    private void showLedger() {
-
-    }
-}
 
 
