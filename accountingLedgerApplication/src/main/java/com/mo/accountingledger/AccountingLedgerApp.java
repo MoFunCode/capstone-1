@@ -23,6 +23,7 @@ public class AccountingLedgerApp {
                 "Mozart's Cafe", -5.25);
 
         Ledger ledger = new Ledger();
+
         ledger.addTransaction(groceries);
         ledger.addTransaction(carRepair);
         ledger.addTransaction(coffee);

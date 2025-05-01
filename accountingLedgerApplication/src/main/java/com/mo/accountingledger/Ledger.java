@@ -22,10 +22,11 @@ public class Ledger {
     }
 
     public ArrayList<Transaction> getTransactions() {
-        return new ArrayList<>(transactions); // Prevent external modification
+        return new ArrayList<>(transactions);
     }
 
     private void saveTransactionsToFile() {
+        //Limiting how frequently data is written to the file system.
         try (BufferedWriter writer = Files.newBufferedWriter(Paths.get(filePath))) {
             for (Transaction t : transactions) {
                 writer.write(t.toCsv());
