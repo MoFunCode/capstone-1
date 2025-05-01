@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Reports {
+
     private final Ledger ledger;
 
     public Reports(Ledger ledger) {
@@ -35,5 +36,12 @@ public class Reports {
             }
         }
         return results;
+    }
+
+    public ArrayList<Transaction> getPreviousYear() {
+        LocalDate today = LocalDate.now();
+        LocalDate firstOfLastYear = today.minusYears(1).withDayOfYear(1);
+        LocalDate lastOfLastYear = today.withDayOfYear(1).minusDays(1);
+        return getByDateRange(firstOfLastYear, lastOfLastYear);
     }
 }
