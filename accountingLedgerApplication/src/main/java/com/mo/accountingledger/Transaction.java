@@ -20,70 +20,47 @@ public class Transaction {
         this.amount = amount;
     }
 
-    public LocalDate getDate() {
-        return date;
-    }
+    public LocalDate getDate() { return date; }
+    public LocalTime getTime() { return time; }
+    public String getDescription() { return description; }
+    public String getVendor() { return vendor; }
+    public double getAmount() { return amount; }
 
-    public void setDate(LocalDate date) {
-        this.date = date;
-    }
+    // Convert to CSV format
+    public String toCsv() {
+        DateTimeFormatter dateFmt = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter timeFmt = DateTimeFormatter.ofPattern("HH:mm:ss");
 
-    public LocalTime getTime() {
-        return time;
-    }
-
-    public void setTime(LocalTime time) {
-        this.time = time;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getVendor() {
-        return vendor;
-    }
-
-    public void setVendor(String vendor) {
-        this.vendor = vendor;
-    }
-
-    public double getAmount() {
-        return amount;
-    }
-
-    public void setAmount(double amount) {
-        this.amount = amount;
-    }
-
-    // Method to convert to CSV format
-    public String toCsvString() {
-        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-
-        return String.format("%s|%s|%s|%s|%.2f",
-                date.format(dateFormatter),
-                time.format(timeFormatter),
+        return String.join("|",
+                date.format(dateFmt),
+                time.format(timeFmt),
                 description,
                 vendor,
-                amount);
+                String.format("%.2f", amount)
+        );
     }
 
-    // Static method to create Transaction from CSV string
+    public static Transaction fromCsv(String csvLine) {
+        String[] parts = csvLine.split("\\|");
+
+        LocalDate date = LocalDate.parse(parts[0]);
+        LocalTime time = LocalTime.parse(parts[1]);
+        String description = parts[2];
+        String vendor = parts[3];
+        double amount = Double.parseDouble(parts[4]);
+
+        return new Transaction(date, time, description, vendor, amount);
+    }
+
+
     public static Transaction fromCsvString(String csvLine) {
         try {
             String[] parts = csvLine.split("\\|");
 
-            // Validate we have exactly 5 parts
             if (parts.length != 5) {
                 throw new IllegalArgumentException("Invalid CSV format - expected 5 fields");
             }
 
-            // Parse with explicit error messages
             LocalDate date = LocalDate.parse(parts[0].trim());
             LocalTime time = LocalTime.parse(parts[1].trim());
             String description = parts[2].trim();
@@ -95,7 +72,7 @@ public class Transaction {
         } catch (Exception e) {
             System.err.println("Failed to parse CSV line: '" + csvLine + "'");
             System.err.println("Reason: " + e.getMessage());
-            return null;  // Or throw a custom exception
+            return null;
         }
     }
 }
