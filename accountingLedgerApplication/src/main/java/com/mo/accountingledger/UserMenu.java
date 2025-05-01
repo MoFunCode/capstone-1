@@ -1,5 +1,7 @@
 package com.mo.accountingledger;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -14,7 +16,7 @@ public class UserMenu {
         while (true) {
             System.out.println("\nChoose an option:");
             System.out.println("D) Add Deposit");
-            System.out.println("P) Add Payment");
+            System.out.println("P) Make Payment (Debit)");
             System.out.println("L) View Ledger");
             System.out.println("X) Exit");
             System.out.print("Enter choice: ");
@@ -34,6 +36,20 @@ public class UserMenu {
         }
     }
 
+    private static void showLedgerMenu() {
+        while (true) {
+            System.out.println("\nLEDGER MENU");
+            System.out.println("A) All - Display all entries");
+            System.out.println("D) Deposits - Display only deposits");
+            System.out.println("P) Payments - Display only payments");
+            System.out.println("R) Reports - Run reports");
+            System.out.println("H) Home - Return to main menu");
+            System.out.print("Enter choice: ");
+
+        }
+
+    }
+
     private static void addDeposit() {
         System.out.println("\nAdd a Deposit");
 
@@ -46,8 +62,8 @@ public class UserMenu {
         double amount = readAmount("Enter amount (positive): ", true);
 
         ledger.addTransaction(new Transaction(
-                java.time.LocalDate.now(),
-                java.time.LocalTime.now(),
+                LocalDate.now(),
+                LocalTime.now(),
                 description,
                 vendor,
                 amount
@@ -68,35 +84,14 @@ public class UserMenu {
         double amount = readAmount("Enter amount (negative): ", false);
 
         ledger.addTransaction(new Transaction(
-                java.time.LocalDate.now(),
-                java.time.LocalTime.now(),
+                LocalDate.now(),
+                LocalTime.now(),
                 description,
                 vendor,
                 amount
         ));
 
         System.out.println("Payment added!");
-    }
-
-    private static double readAmount(String prompt, boolean mustBePositive) {
-        double amount = 0;
-        boolean valid = false;
-
-        while (!valid) {
-            System.out.print(prompt);
-            try {
-                amount = Double.parseDouble(input.nextLine());
-                if (mustBePositive && amount <= 0 || !mustBePositive && amount >= 0) {
-                    System.out.println("Please enter a valid " + (mustBePositive ? "positive" : "negative") + " amount.");
-                } else {
-                    valid = true;
-                }
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid number. Try again.");
-            }
-        }
-
-        return amount;
     }
 
     private static void showLedger() {
@@ -118,6 +113,27 @@ public class UserMenu {
         }
 
         System.out.println("---- Total Transactions: " + count + " ----");
+    }
+
+    private static double readAmount(String prompt, boolean mustBePositive) {
+        double amount = 0;
+        boolean valid = false;
+
+        while (!valid) {
+            System.out.print(prompt);
+            try {
+                amount = Double.parseDouble(input.nextLine());
+                if (mustBePositive && amount <= 0 || !mustBePositive && amount >= 0) {
+                    System.out.println("Please enter a valid " + (mustBePositive ? "positive" : "negative") + " amount.");
+                } else {
+                    valid = true;
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid number. Try again.");
+            }
+        }
+
+        return amount;
     }
 }
 
