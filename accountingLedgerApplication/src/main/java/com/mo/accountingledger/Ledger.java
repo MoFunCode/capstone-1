@@ -26,7 +26,7 @@ public class Ledger {
     }
 
     private void saveTransactionsToFile() {
-        //Limiting how frequently data is written to the file system.
+
         try (BufferedWriter writer = Files.newBufferedWriter(Paths.get(filePath))) {
             for (Transaction t : transactions) {
                 writer.write(t.toCsv());

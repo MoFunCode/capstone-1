@@ -12,7 +12,7 @@ public class UserMenu {
     private static final Reports reports = new Reports(ledger);
 
     public static void showMainMenu() {
-        System.out.println("\n MAIN MENU");
+        System.out.println("\n --MAIN MENU--");
 
         while (true) {
             System.out.println("\nChoose an option:");
@@ -166,25 +166,31 @@ public class UserMenu {
             return;
         }
 
-        System.out.println("DATE       | TIME     | DESCRIPTION          | VENDOR              | AMOUNT");
-        System.out.println("--------------------------------------------------------------------------");
-
+        System.out.println("DATE       | TIME     | DESCRIPTION          | VENDOR              | AMOUNT     ");
+        System.out.println("------------------------------------------------------------------------------");
         for (Transaction t : transactions) {
             String desc = t.getDescription();
             if (desc.length() > 20) {
                 desc = desc.substring(0, 17) + "...";
             }
 
-            String vendor = t.getVendor();
+            String vendor = t.getVendor() != null ? t.getVendor() : "";
             if (vendor.length() > 20) {
-                vendor = vendor.substring(0, 17) + "...";
+                vendor = vendor.substring(0, Math.min(17, vendor.length())) + "...";
             }
-            System.out.printf("%s | %s | %-20s | %-20s | $%9.2f%n",
-                    t.getDate(), t.getTime().toString().substring(0, 8),
-                    desc, vendor, t.getAmount());
-        }
 
-        System.out.println("---- Total Transactions: " + transactions.size() + " ----");
+            String timeStr = t.getTime() != null ? t.getTime().toString() : "";
+            timeStr = timeStr.length() >= 8 ? timeStr.substring(0, 8) : timeStr;
+
+            System.out.printf(
+                    "%s | %s | %-20s | %-20s | $%9.2f%n",
+                    t.getDate(),
+                    timeStr,
+                    desc,
+                    vendor,
+                    t.getAmount()
+            );
+        }
     }
 
     private static double readAmount(String prompt, boolean mustBePositive) {

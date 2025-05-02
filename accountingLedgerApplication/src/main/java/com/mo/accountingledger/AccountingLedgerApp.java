@@ -14,21 +14,24 @@ public class AccountingLedgerApp {
                 LocalDate.now(), LocalTime.now(), "Groceries",
                 "International Market", -120.45);
 
+        Transaction socerCleats = new Transaction(
+                LocalDate.now(), LocalTime.of(8, 15), "Nike Men's Vapor 16",
+                "Soccer Zone", 270);
+
+
         Transaction carRepair = new Transaction(
                 LocalDate.now().minusDays(1), LocalTime.of(14, 30), "Car Repair",
                 "Friend's Garage", -200.50);
 
-        Transaction coffee = new Transaction(
-                LocalDate.now(), LocalTime.of(8, 15), "Coffee",
+        Transaction coffee = new Transaction(LocalDate.now(), LocalTime.of(8, 15), "Coffee",
                 "Mozart's Cafe", -5.25);
+
 
         Ledger ledger = new Ledger();
 
         ledger.addTransaction(groceries);
         ledger.addTransaction(carRepair);
         ledger.addTransaction(coffee);
-
-
         UserMenu.showMainMenu();
     }
 }

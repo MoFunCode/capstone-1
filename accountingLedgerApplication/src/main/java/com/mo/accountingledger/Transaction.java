@@ -20,11 +20,25 @@ public class Transaction {
         this.amount = amount;
     }
 
-    public LocalDate getDate() { return date; }
-    public LocalTime getTime() { return time; }
-    public String getDescription() { return description; }
-    public String getVendor() { return vendor; }
-    public double getAmount() { return amount; }
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public LocalTime getTime() {
+        return time;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getVendor() {
+        return vendor;
+    }
+
+    public double getAmount() {
+        return amount;
+    }
 
 
     public String toCsv() {
@@ -53,3 +67,8 @@ public class Transaction {
     }
 
 }
+
+
+
+
+
