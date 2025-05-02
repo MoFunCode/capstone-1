@@ -1,6 +1,6 @@
 # Accounting Ledger Application
 
-A simple Java CLI application for tracking personal or business financial transactions.
+A simple Java CLI application for tracking financial transactions.
 
 ## Description
 
