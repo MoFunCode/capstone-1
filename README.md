@@ -6,6 +6,13 @@ A simple Java CLI application for tracking personal or business financial transa
 
 This application allows users to track financial transactions through a command-line interface. Users can add deposits, make payments, view transaction history, and generate various reports. All transactions are saved to a CSV file for persistent storage.
 
+## Demo
+
+Check out a video demonstration of the application:
+
+[![Accounting Ledger App Demo](https://img.youtube.com/vi/TNkj2SEoP9w/0.jpg)](https://youtu.be/TNkj2SEoP9w)
+
+
 ## Features
 
 - Add deposits and payments
